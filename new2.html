@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+
+
+
+<script>
+
+cordova.plugins.barcodeScanner.scan(
+      function (result) {
+		  
+		if (result.cancelled) {
+			alert('Damn - it was cancelled...');  
+		}
+		else {
+			var bc = result.text;
+			fetchProdInfo(bc);
+		}
+	  }, 
+      function (error) {
+          alert("Scanning failed: " + error);
+      }
+   );
+
+
+
+function fetchProdInfo(scancode) {
+			$.getJSON(
+				'http://mysite.dk/mobile/productinfo.php', // url
+				'bc='+scancode,  // parameters
+				function(res){ // onsucces
+					$("#name").text(res.name);
+					$("#category").text(res.category);
+				}
+			);
+}
+
+
+
+</script>
+</head>
+
+<body>
+</body>
+</html>
